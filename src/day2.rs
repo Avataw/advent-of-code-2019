@@ -23,38 +23,31 @@ fn initialize(input: &Vec<i32>, first: i32, second: i32) -> Vec<i32> {
     let mut result = input.to_vec();
     result[1] = first;
     result[2] = second;
-    return result;
+    result
 }
 
 fn run_operations(input: &Vec<i32>) -> Vec<i32> {
     let mut result = input.to_vec();
     let mut i = 0;
     loop {
-        if result[i] == 99 {
-            break;
-        }
-        if result[i] == 1 {
-            let first_pos = result[i + 1] as usize;
-            let second_pos = result[i + 2] as usize;
-            let target_pos = result[i + 3] as usize;
-            result[target_pos] = result[first_pos] + result[second_pos]
-        } else if result[i] == 2 {
-            let first_pos = result[i + 1] as usize;
-            let second_pos = result[i + 2] as usize;
-            let target_pos = result[i + 3] as usize;
-            result[target_pos] = result[first_pos] * result[second_pos]
-        }
-
-        i += 4
+        let value = match result[i] {
+            99 => break,
+            1 => result[result[i + 1] as usize] + result[result[i + 2] as usize],
+            2 => result[result[i + 1] as usize] * result[result[i + 2] as usize],
+            _ => panic!("No operation matches")
+        };
+        let target = result[i + 3] as usize;
+        result[target] = value;
+        i += 4;
     }
-    return result;
+    result
 }
 
 fn solve_part_one(input: &str) -> i32 {
     let intcode_program = parse(input);
     let restored_program = initialize(&intcode_program, 12, 2);
     let result = run_operations(&restored_program);
-    return result[0];
+    result[0]
 }
 
 fn solve_part_two(input: &str) -> i32 {
