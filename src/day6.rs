@@ -8,7 +8,7 @@ const PATH: &str = "src/day6.txt";
 pub fn solve() -> () {
     let input: String = fs::read_to_string(PATH).expect("");
     println!(
-        "Day 6 a) : {} b) : {}",
+        "Day 6: \n a) {} \n b) {}",
         solve_part_one(&input),
         solve_part_two(&input)
     );
@@ -55,9 +55,8 @@ fn calc_distances(objects: &Vec<Object>) -> HashMap<String, i32> {
                 continue;
             }
 
-            match distances.get(&object.orbits) {
-                Some(distance) => distances.insert(object.name.clone(), distance + 1),
-                None => continue,
+            if let Some(distance) = distances.get(&object.orbits) {
+                distances.insert(object.name.clone(), distance + 1);
             };
         }
     }
