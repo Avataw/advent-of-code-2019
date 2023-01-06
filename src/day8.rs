@@ -11,14 +11,12 @@ pub fn solve() -> () {
     );
 }
 
-fn solve_part_one(input: &str) -> i32 {
+fn solve_part_one(input: &str) -> usize {
     let layers = parse(input, 25, 6);
 
     let target_layer = find_fewest_zeroes(&layers);
 
-    (target_layer.count('1') * target_layer.count('2'))
-        .try_into()
-        .unwrap()
+    target_layer.count('1') * target_layer.count('2')
 }
 
 fn solve_part_two(input: &str) -> String {
@@ -40,9 +38,7 @@ fn parse(input: &str, width: usize, height: usize) -> Vec<Layer> {
 
     digits
         .chunks(chunk_size)
-        .map(|pixels| Layer {
-            pixels: pixels.to_vec(),
-        })
+        .map(|pixels| Layer { pixels: pixels.to_vec() })
         .collect()
 }
 
@@ -58,7 +54,6 @@ fn decode(layers: &Vec<Layer>, length: usize) -> String {
 
     for i in 0..length {
         for layer in layers.iter() {
-            
             match layer.pixels[i] {
                 '2' => continue,
                 '1' => first_non_transparent_pixels.push('⬜'),
@@ -138,7 +133,7 @@ mod tests {
         ⬜⬛⬛⬛⬛⬜⬜⬜⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬛⬛⬜⬛⬛⬛⬛
         ⬜⬛⬛⬛⬛⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬛⬛⬜⬛⬛⬛⬛
         ⬜⬛⬛⬛⬛⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬜⬜⬜⬛⬜⬛⬛⬛⬛".split_whitespace().collect();
-        
+
         assert_eq!(solve_part_two(&input).replace('\n', ""), result);
     }
 }
