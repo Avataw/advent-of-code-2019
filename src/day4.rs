@@ -5,7 +5,7 @@ const PATH: &str = "src/day4.txt";
 pub fn solve() -> () {
     let input: String = fs::read_to_string(PATH).expect("");
     println!(
-        "Day 4 a) : {} b) : {}",
+        "Day 4: \n a) {} \n b) {}",
         solve_part_one(&input),
         solve_part_two(&input)
     );
@@ -14,17 +14,13 @@ pub fn solve() -> () {
 fn solve_part_one(input: &str) -> i32 {
     parse_range(input)
         .filter(|r| is_increasing(r) && matches_adjacent(r))
-        .count()
-        .try_into()
-        .unwrap()
+        .count() as i32
 }
 
 fn solve_part_two(input: &str) -> i32 {
     parse_range(input)
         .filter(|r| is_increasing(r) && matches_only_adjacent(r))
-        .count()
-        .try_into()
-        .unwrap()
+        .count() as i32
 }
 
 fn parse_range(input: &str) -> Range<i32> {
@@ -48,9 +44,7 @@ fn count_digit(digits: &Vec<u32>, digit: u32) -> u32 {
     digits
         .iter()
         .filter(|d| **d == digit)
-        .count()
-        .try_into()
-        .unwrap()
+        .count() as u32
 }
 
 fn is_increasing(input: &i32) -> bool {

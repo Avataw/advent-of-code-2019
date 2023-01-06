@@ -3,7 +3,7 @@ use std::fs;
 pub fn solve() -> () {
     let input: String = fs::read_to_string("src/day1.txt").expect("");
     println!(
-        "Day 1 a) : {} b) : {}",
+        "Day 1: \n a) {} \n b) {}",
         solve_part_one(&input),
         solve_part_two(&input)
     );

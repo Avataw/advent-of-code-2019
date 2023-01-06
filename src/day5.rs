@@ -6,7 +6,7 @@ pub fn solve() -> () {
     let input: String = fs::read_to_string(PATH).expect("");
 
     println!(
-        "Day 2: \n a) {} \n b) {}",
+        "Day 5: UNSOLVED :( {}, {}",
         solve_part_one(&input),
         solve_part_two(&input)
     );
@@ -29,6 +29,8 @@ fn initialize(input: &Vec<i32>, first: i32, second: i32) -> Vec<i32> {
 fn run_operations(input: &Vec<i32>) -> Vec<i32> {
     let mut result = input.to_vec();
     let mut i = 0;
+    // let mut steps = 0;
+
     loop {
         let value = match result[i] {
             99 => break,
@@ -36,6 +38,14 @@ fn run_operations(input: &Vec<i32>) -> Vec<i32> {
             2 => result[result[i + 1] as usize] * result[result[i + 2] as usize],
             _ => panic!("No operation matches")
         };
+
+        // steps = match result[i] {
+            // 1 => 4,
+            // 2 => 4,
+            // 3 => 2,
+            // _ => panic!("No operation matches")
+        // };
+
         let target = result[i + 3] as usize;
         result[target] = value;
         i += 4;
