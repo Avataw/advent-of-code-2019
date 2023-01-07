@@ -2,7 +2,7 @@ use std::{fs, ops::Range};
 
 const PATH: &str = "src/day4.txt";
 
-pub fn solve() -> () {
+pub fn solve() {
     let input: String = fs::read_to_string(PATH).expect("");
     println!(
         "Day 4: \n a) {} \n b) {}",
@@ -25,7 +25,7 @@ fn solve_part_two(input: &str) -> i32 {
 
 fn parse_range(input: &str) -> Range<i32> {
     let input: Vec<i32> = input
-        .split("-")
+        .split('-')
         .map(|s| s.parse::<i32>().unwrap())
         .collect();
 
@@ -40,7 +40,7 @@ fn to_digits(input: &i32) -> Vec<u32> {
         .collect()
 }
 
-fn count_digit(digits: &Vec<u32>, digit: u32) -> u32 {
+fn count_digit(digits: &[u32], digit: u32) -> u32 {
     digits
         .iter()
         .filter(|d| **d == digit)
@@ -68,9 +68,9 @@ mod tests {
 
     #[test]
     fn should_count_digit_in_digits() {
-        assert_eq!(count_digit(&vec![1, 2, 3, 4, 5, 6], 1), 1);
-        assert_eq!(count_digit(&vec![3, 3, 3, 3, 3, 3], 3), 6);
-        assert_eq!(count_digit(&vec![1, 2, 3, 4, 5, 0], 9), 0);
+        assert_eq!(count_digit(&[1, 2, 3, 4, 5, 6], 1), 1);
+        assert_eq!(count_digit(&[3, 3, 3, 3, 3, 3], 3), 6);
+        assert_eq!(count_digit(&[1, 2, 3, 4, 5, 0], 9), 0);
     }
 
     #[test]
@@ -82,24 +82,24 @@ mod tests {
 
     #[test]
     fn should_check_for_increasing_digits() {
-        assert_eq!(is_increasing(&123456), true);
-        assert_eq!(is_increasing(&333333), true);
-        assert_eq!(is_increasing(&123450), false);
-        assert_eq!(is_increasing(&555725), false);
+        assert!(is_increasing(&123456));
+        assert!(is_increasing(&333333));
+        assert!(!is_increasing(&123450));
+        assert!(!is_increasing(&555725));
     }
 
     #[test]
     fn should_check_for_matching_adjacent_digits() {
-        assert_eq!(matches_adjacent(&123456), false);
-        assert_eq!(matches_adjacent(&333333), true);
-        assert_eq!(matches_adjacent(&123455), true);
+        assert!(!matches_adjacent(&123456));
+        assert!(matches_adjacent(&333333));
+        assert!(matches_adjacent(&123455));
     }
 
     #[test]
     fn should_check_for_exactly_matching_adjacent_digits() {
-        assert_eq!(matches_only_adjacent(&123456), false);
-        assert_eq!(matches_only_adjacent(&333333), false);
-        assert_eq!(matches_only_adjacent(&123455), true);
+        assert!(!matches_only_adjacent(&123456));
+        assert!(!matches_only_adjacent(&333333));
+        assert!(matches_only_adjacent(&123455));
     }
 
     #[test]

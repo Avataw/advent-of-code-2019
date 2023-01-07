@@ -2,7 +2,7 @@ use std::fs;
 
 const PATH: &str = "src/day8.txt";
 
-pub fn solve() -> () {
+pub fn solve() {
     let input: String = fs::read_to_string(PATH).expect("");
     println!(
         "Day 8: \n a) {} \n b) \n{}",
@@ -26,7 +26,7 @@ fn solve_part_two(input: &str) -> String {
 
     let digits: Vec<char> = decoded.chars().collect();
 
-    let message: Vec<String> = digits.chunks(25).map(|d| d.into_iter().collect()).collect();
+    let message: Vec<String> = digits.chunks(25).map(|d| d.iter().collect()).collect();
 
     message.join("\n")
 }
@@ -42,14 +42,14 @@ fn parse(input: &str, width: usize, height: usize) -> Vec<Layer> {
         .collect()
 }
 
-fn find_fewest_zeroes(layers: &Vec<Layer>) -> &Layer {
+fn find_fewest_zeroes(layers: &[Layer]) -> &Layer {
     layers
         .iter()
         .min_by(|a, b| a.count('0').cmp(&b.count('0')))
         .unwrap()
 }
 
-fn decode(layers: &Vec<Layer>, length: usize) -> String {
+fn decode(layers: &[Layer], length: usize) -> String {
     let mut first_non_transparent_pixels: Vec<char> = vec![];
 
     for i in 0..length {
@@ -89,7 +89,7 @@ mod tests {
         let image_width = 3;
         let image_height = 2;
 
-        assert_eq!(parse(&input, image_width, image_height).len(), 2);
+        assert_eq!(parse(input, image_width, image_height).len(), 2);
     }
 
     #[test]

@@ -5,7 +5,7 @@ use std::{
 
 const PATH: &str = "src/day3.txt";
 
-pub fn solve() -> () {
+pub fn solve() {
     let input: String = fs::read_to_string(PATH).expect("");
     println!(
         "Day 3: \n a) {} \n b) {}",
@@ -20,19 +20,19 @@ fn solve_part_one(input: &str) -> i32 {
     for line in input.lines() {
         let mut wire = Wire::new();
 
-        let movements = line.split(",");
+        let movements = line.split(',');
 
         for movement in movements {
             let value = movement[1..movement.len()].parse::<i32>().unwrap();
 
             for _ in 0..value {
-                if movement.starts_with("R") {
+                if movement.starts_with('R') {
                     wire.move_right();
-                } else if movement.starts_with("L") {
+                } else if movement.starts_with('L') {
                     wire.move_left();
-                } else if movement.starts_with("U") {
+                } else if movement.starts_with('U') {
                     wire.move_up()
-                } else if movement.starts_with("D") {
+                } else if movement.starts_with('D') {
                     wire.move_down()
                 }
             }
@@ -44,12 +44,10 @@ fn solve_part_one(input: &str) -> i32 {
     let first_visited: HashSet<Position> = wires[0].visited_at.keys().cloned().collect();
     let second_visited: HashSet<Position> = wires[1].visited_at.keys().cloned().collect();
 
-    let intersections: Vec<&Position> = first_visited.intersection(&second_visited).collect();
-    
     let center_point = Position { x: 0, y: 0 };
-    
-    let mut intersections_distances: Vec<i32> = intersections
-        .into_iter()
+
+    let mut intersections_distances: Vec<i32> = first_visited
+        .intersection(&second_visited)
         .map(|i| i.distance_from(&center_point))
         .collect();
 
@@ -64,19 +62,19 @@ fn solve_part_two(input: &str) -> i32 {
     for line in input.lines() {
         let mut wire = Wire::new();
 
-        let movements = line.split(",");
+        let movements = line.split(',');
 
         for movement in movements {
             let value = movement[1..movement.len()].parse::<i32>().unwrap();
 
             for _ in 0..value {
-                if movement.starts_with("R") {
+                if movement.starts_with('R') {
                     wire.move_right();
-                } else if movement.starts_with("L") {
+                } else if movement.starts_with('L') {
                     wire.move_left();
-                } else if movement.starts_with("U") {
+                } else if movement.starts_with('U') {
                     wire.move_up()
-                } else if movement.starts_with("D") {
+                } else if movement.starts_with('D') {
                     wire.move_down()
                 }
             }
@@ -88,10 +86,7 @@ fn solve_part_two(input: &str) -> i32 {
     let first_visited: HashSet<Position> = wires[0].visited_at.keys().cloned().collect();
     let second_visited: HashSet<Position> = wires[1].visited_at.keys().cloned().collect();
 
-    let intersections: Vec<&Position> = first_visited.intersection(&second_visited).collect();
-
-    let mut intersections_distances: Vec<i32> = intersections
-        .into_iter()
+    let mut intersections_distances: Vec<i32> = first_visited.intersection(&second_visited)
         .map(|i| wires[0].visited_at.get(i).unwrap() + wires[1].visited_at.get(i).unwrap())
         .collect();
 

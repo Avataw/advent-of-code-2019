@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn solve() -> () {
+pub fn solve() {
     let input: String = fs::read_to_string("src/day1.txt").expect("");
     println!(
         "Day 1: \n a) {} \n b) {}",
@@ -39,7 +39,7 @@ fn calc_fuel_repeating(mass: i32) -> i32 {
         fuel += current_mass;
     }
 
-    return fuel;
+    fuel
 }
 
 #[cfg(test)]

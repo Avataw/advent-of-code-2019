@@ -2,7 +2,7 @@ use std::fs;
 
 const PATH: &str = "src/day2.txt";
 
-pub fn solve() -> () {
+pub fn solve() {
     let input: String = fs::read_to_string(PATH).expect("");
 
     println!(
@@ -19,14 +19,14 @@ fn parse(input: &str) -> Vec<i32> {
         .collect()
 }
 
-fn initialize(input: &Vec<i32>, first: i32, second: i32) -> Vec<i32> {
+fn initialize(input: &[i32], first: i32, second: i32) -> Vec<i32> {
     let mut result = input.to_vec();
     result[1] = first;
     result[2] = second;
     result
 }
 
-fn run_operations(input: &Vec<i32>) -> Vec<i32> {
+fn run_operations(input: &[i32]) -> Vec<i32> {
     let mut result = input.to_vec();
     let mut i = 0;
     loop {

@@ -5,7 +5,7 @@ use std::{
 
 const PATH: &str = "src/day6.txt";
 
-pub fn solve() -> () {
+pub fn solve() {
     let input: String = fs::read_to_string(PATH).expect("");
     println!(
         "Day 6: \n a) {} \n b) {}",
@@ -38,7 +38,7 @@ fn parse(input: &str) -> Vec<Object> {
     input
         .lines()
         .map(|l| {
-            let mut orbiting_object = l.split(")").map(|s| String::from(s));
+            let mut orbiting_object = l.split(')').map(String::from);
             Object {
                 orbits: orbiting_object.next().unwrap(),
                 name: orbiting_object.next().unwrap(),
@@ -63,7 +63,7 @@ fn calc_distances(objects: &Vec<Object>) -> HashMap<String, i32> {
     distances
 }
 
-fn find_path(objects: &Vec<Object>, target: &str) -> HashSet<String> {
+fn find_path(objects: &[Object], target: &str) -> HashSet<String> {
     let mut path: HashSet<String> = HashSet::new();
     let mut curr = objects.iter().find(|o| o.name == target).unwrap();
 
