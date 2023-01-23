@@ -3,7 +3,7 @@ use std::{fs, ops::Range};
 const PATH: &str = "src/day4.txt";
 
 pub fn solve() {
-    let input: String = fs::read_to_string(PATH).expect("");
+    let input: String = fs::read_to_string(PATH).unwrap();
     println!(
         "Day 4: \n a) {} \n b) {}",
         solve_part_one(&input),
@@ -24,12 +24,8 @@ fn solve_part_two(input: &str) -> i32 {
 }
 
 fn parse_range(input: &str) -> Range<i32> {
-    let input: Vec<i32> = input
-        .split('-')
-        .map(|s| s.parse::<i32>().unwrap())
-        .collect();
-
-    input[0]..input[1]
+    let (first, second) = input.split_once("-").unwrap();
+    first.parse().unwrap()..second.parse().unwrap()
 }
 
 fn to_digits(input: &i32) -> Vec<u32> {
@@ -104,14 +100,14 @@ mod tests {
 
     #[test]
     fn should_solve_part_one() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
 
         assert_eq!(solve_part_one(&input), 2779);
     }
 
     #[test]
     fn should_solve_part_two() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
 
         assert_eq!(solve_part_two(&input), 1972);
     }

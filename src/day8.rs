@@ -3,7 +3,7 @@ use std::fs;
 const PATH: &str = "src/day8.txt";
 
 pub fn solve() {
-    let input: String = fs::read_to_string(PATH).expect("");
+    let input: String = fs::read_to_string(PATH).unwrap();
     println!(
         "Day 8: \n a) {} \n b) \n{}",
         solve_part_one(&input),
@@ -38,7 +38,9 @@ fn parse(input: &str, width: usize, height: usize) -> Vec<Layer> {
 
     digits
         .chunks(chunk_size)
-        .map(|pixels| Layer { pixels: pixels.to_vec() })
+        .map(|pixels| Layer {
+            pixels: pixels.to_vec(),
+        })
         .collect()
 }
 
@@ -50,21 +52,21 @@ fn find_fewest_zeroes(layers: &[Layer]) -> &Layer {
 }
 
 fn decode(layers: &[Layer], length: usize) -> String {
-    let mut first_non_transparent_pixels: Vec<char> = vec![];
+    let mut first_non_transparent_pixels: String = String::new();
 
     for i in 0..length {
-        for layer in layers.iter() {
+        for layer in layers {
             match layer.pixels[i] {
                 '2' => continue,
                 '1' => first_non_transparent_pixels.push('⬜'),
                 '0' => first_non_transparent_pixels.push('⬛'),
-                _ => panic!("Pixel contains invalid color!")
+                _ => panic!("Pixel contains invalid color!"),
             }
             break;
         }
     }
 
-    first_non_transparent_pixels.into_iter().collect()
+    first_non_transparent_pixels
 }
 
 #[derive(PartialEq, Debug)]
@@ -117,22 +119,24 @@ mod tests {
 
     #[test]
     fn should_solve_part_one() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
 
         assert_eq!(solve_part_one(&input), 1330);
     }
 
     #[test]
     fn should_solve_part_two() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
 
-        let result : String = "
+        let result: String = "
         ⬜⬜⬜⬜⬛⬛⬜⬜⬛⬛⬜⬛⬛⬜⬛⬜⬜⬜⬜⬛⬜⬜⬜⬜⬛
         ⬜⬛⬛⬛⬛⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬛⬛⬜⬛⬛⬛⬛
         ⬜⬜⬜⬛⬛⬜⬛⬛⬜⬛⬜⬜⬜⬜⬛⬜⬜⬜⬛⬛⬜⬜⬜⬛⬛
         ⬜⬛⬛⬛⬛⬜⬜⬜⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬛⬛⬜⬛⬛⬛⬛
         ⬜⬛⬛⬛⬛⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬛⬛⬛⬛⬜⬛⬛⬛⬛
-        ⬜⬛⬛⬛⬛⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬜⬜⬜⬛⬜⬛⬛⬛⬛".split_whitespace().collect();
+        ⬜⬛⬛⬛⬛⬜⬛⬛⬜⬛⬜⬛⬛⬜⬛⬜⬜⬜⬜⬛⬜⬛⬛⬛⬛"
+            .split_whitespace()
+            .collect();
 
         assert_eq!(solve_part_two(&input).replace('\n', ""), result);
     }

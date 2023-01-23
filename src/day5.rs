@@ -3,7 +3,7 @@ use std::fs;
 const PATH: &str = "src/day5.txt";
 
 pub fn solve() {
-    let input: String = fs::read_to_string(PATH).expect("");
+    let input: String = fs::read_to_string(PATH).unwrap();
 
     println!(
         "Day 5: \n a) {} \n b) {}",
@@ -193,13 +193,13 @@ mod tests {
 
     #[test]
     fn should_solve_part_one() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
         assert_eq!(solve_part_one(&input), 15386262);
     }
 
     #[test]
     fn should_solve_part_two() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
         assert_eq!(solve_part_two(&input), 10376124);
     }
 }

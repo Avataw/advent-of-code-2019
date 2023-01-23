@@ -1,7 +1,7 @@
 use std::fs;
 
 pub fn solve() {
-    let input: String = fs::read_to_string("src/day1.txt").expect("");
+    let input: String = fs::read_to_string("src/day1.txt").unwrap();
     println!(
         "Day 1: \n a) {} \n b) {}",
         solve_part_one(&input),
@@ -9,8 +9,8 @@ pub fn solve() {
     );
 }
 
-fn parse(input: &str) -> Vec<i32> {
-    input.lines().map(|s| s.parse::<i32>().unwrap()).collect()
+fn parse(input: &str) -> impl Iterator<Item = i32> + '_ {
+    input.lines().map(|s| s.parse::<i32>().unwrap())
 }
 
 fn solve_part_one(input: &str) -> i32 {
@@ -63,14 +63,14 @@ mod tests {
 
     #[test]
     fn should_solve_part_one() {
-        let input: String = fs::read_to_string("src/day1.txt").expect("");
+        let input: String = fs::read_to_string("src/day1.txt").unwrap();
 
         assert_eq!(solve_part_one(&input), 3432671);
     }
 
     #[test]
     fn should_solve_part_two() {
-        let input: String = fs::read_to_string("src/day1.txt").expect("");
+        let input: String = fs::read_to_string("src/day1.txt").unwrap();
 
         assert_eq!(solve_part_two(&input), 5146132);
     }

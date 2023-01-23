@@ -6,7 +6,7 @@ use std::{
 const PATH: &str = "src/day6.txt";
 
 pub fn solve() {
-    let input: String = fs::read_to_string(PATH).expect("");
+    let input: String = fs::read_to_string(PATH).unwrap();
     println!(
         "Day 6: \n a) {} \n b) {}",
         solve_part_one(&input),
@@ -142,14 +142,14 @@ mod tests {
 
     #[test]
     fn should_solve_part_one() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
 
         assert_eq!(solve_part_one(&input), 253104);
     }
 
     #[test]
     fn should_solve_part_two() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
 
         assert_eq!(solve_part_two(&input), 499);
     }

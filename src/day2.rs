@@ -3,7 +3,7 @@ use std::fs;
 const PATH: &str = "src/day2.txt";
 
 pub fn solve() {
-    let input: String = fs::read_to_string(PATH).expect("");
+    let input: String = fs::read_to_string(PATH).unwrap();
 
     println!(
         "Day 2: \n a) {} \n b) {}",
@@ -19,45 +19,44 @@ fn parse(input: &str) -> Vec<i32> {
         .collect()
 }
 
-fn initialize(input: &[i32], first: i32, second: i32) -> Vec<i32> {
-    let mut result = input.to_vec();
-    result[1] = first;
-    result[2] = second;
-    result
+fn initialize(input: &mut [i32], first: i32, second: i32) {
+    input[1] = first;
+    input[2] = second;
 }
 
-fn run_operations(input: &[i32]) -> Vec<i32> {
-    let mut result = input.to_vec();
+fn run_operations(input: &mut [i32]) {
     let mut i = 0;
     loop {
-        let value = match result[i] {
+        let value = match input[i] {
             99 => break,
-            1 => result[result[i + 1] as usize] + result[result[i + 2] as usize],
-            2 => result[result[i + 1] as usize] * result[result[i + 2] as usize],
-            _ => panic!("No operation matches")
+            1 => input[input[i + 1] as usize] + input[input[i + 2] as usize],
+            2 => input[input[i + 1] as usize] * input[input[i + 2] as usize],
+            _ => panic!("No operation matches"),
         };
-        let target = result[i + 3] as usize;
-        result[target] = value;
+        let target = input[i + 3] as usize;
+        input[target] = value;
         i += 4;
     }
-    result
 }
 
 fn solve_part_one(input: &str) -> i32 {
-    let intcode_program = parse(input);
-    let restored_program = initialize(&intcode_program, 12, 2);
-    let result = run_operations(&restored_program);
-    result[0]
+    let mut intcode_program = parse(input);
+
+    initialize(&mut intcode_program, 12, 2);
+    run_operations(&mut intcode_program);
+
+    *intcode_program.first().unwrap()
 }
 
 fn solve_part_two(input: &str) -> i32 {
-    let intcode_program = parse(input);
 
     for noun in 0..100 {
         for verb in 0..100 {
-            let restored_program = initialize(&intcode_program, noun, verb);
-            let result = run_operations(&restored_program);
-            if result[0] == 19690720 {
+            let mut intcode_program = parse(input);
+
+            initialize(&mut intcode_program, noun, verb);
+            run_operations(&mut intcode_program);
+            if intcode_program[0] == 19690720 {
                 return 100 * noun + verb;
             }
         }
@@ -77,31 +76,37 @@ mod tests {
 
     #[test]
     fn should_add() {
-        let input = vec![1, 0, 0, 3, 99];
-        assert_eq!(run_operations(&input), vec![1, 0, 0, 2, 99]);
+        let mut input = vec![1, 0, 0, 3, 99];
+        run_operations(&mut input);
+
+        assert_eq!(input, vec![1, 0, 0, 2, 99]);
     }
 
     #[test]
     fn should_multiply() {
-        let input = vec![2, 0, 0, 3, 99];
-        assert_eq!(run_operations(&input), vec![2, 0, 0, 4, 99]);
+        let mut input = vec![2, 0, 0, 3, 99];
+        run_operations(&mut input);
+
+        assert_eq!(input, vec![2, 0, 0, 4, 99]);
     }
 
     #[test]
     fn should_initialize() {
-        let input = vec![1, 1, 1, 1, 99];
-        assert_eq!(initialize(&input, 12, 2), vec![1, 12, 2, 1, 99]);
+        let mut input = vec![1, 1, 1, 1, 99];
+        initialize(&mut input, 12, 2);
+
+        assert_eq!(input, vec![1, 12, 2, 1, 99]);
     }
 
     #[test]
     fn should_solve_part_one() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
         assert_eq!(solve_part_one(&input), 9706670);
     }
 
     #[test]
     fn should_solve_part_two() {
-        let input: String = fs::read_to_string(PATH).expect("");
+        let input: String = fs::read_to_string(PATH).unwrap();
         assert_eq!(solve_part_two(&input), 2552);
     }
 }
